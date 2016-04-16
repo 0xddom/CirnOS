@@ -1,16 +1,28 @@
-global loader
+MBALIGN		equ	1<<0
+MEMINFO		equ 1<<1
+FLAGS		equ MBALIGN | MEMINFO
+MAGIC		equ 0x1BADB002
+CHECKSUM	equ -(MAGIC + FLAGS)
 
-MAGIC_NUMBER 	equ 0x1badb002
-FLAGS 			equ 0x0
-CHECKSUM		equ -MAGIC_NUMBER
-
-section .text:
+section .multiboot
 align 4
-	dd MAGIC_NUMBER
+	dd MAGIC
 	dd FLAGS
 	dd CHECKSUM
 
-loader:
-	mov eax, 0xcafebabe
-.loop:
-	jmp .loop
+section .bootstrap_stack, nobits
+align 4
+stack_bottom:
+resb 16384
+stack_top:
+
+section .text
+global _start
+_start:
+	mov esp, stack_top
+	extern kmain
+	call kmain
+	cli
+hang:
+	htl
+	jmp hang

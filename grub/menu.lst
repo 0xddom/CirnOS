@@ -1,5 +1,0 @@
-default=0
-timeout=5
-
-title CirnOS
-kernel /boot/kernel.elf

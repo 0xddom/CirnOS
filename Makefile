@@ -7,6 +7,7 @@ BUILD_DIR=./build
 GRUB_DIR=./grub
 DIST_DIR=./dist
 ISO_DIR=$(DIST_DIR)/iso
+INCLUDE_DIR=./include
 
 # Files
 LINK_SCRIPT=link.ld
@@ -16,21 +17,23 @@ BOCHS_TMP=./bochs/bochsrc.tmp
 
 # Tools
 SS=nasm
-SFLAGS=-f elf32
+SFLAGS=-felf32
 CC=gcc
-CFLAGS=-g -Wall
+CFLAGS=-Wall -m32 -nostdlib -I$(INCLUDE_DIR)
+CFLAGS+=-fno-stack-protector -nostartfiles
 LD=ld
 LFLAGS=-T $(LINK_SCRIPT) -melf_i386
 RM=rm -f
-GISO=genisoimage
-GFLAGS=-no-emul-boot -boot-load-size 4 -A $(OS_NAME) -quiet
-GFLAGS+=-boot-info-table
+GISO=grub-mkrescue
+GFLAGS=
 GRUB=$(GRUB_DIR)/$(GRUB_BIN)
-MENU=$(GRUB_DIR)/menu.lst
-BS=bochs
-BFLAGS=-f $(BOCHS_CFG) -q
+GRUB_CFG=$(GRUB_DIR)/grub.cfg
+MV=qemu-system-i386
+MFLAGS=
 
-OBJECTS=$(BUILD_DIR)/loader.o
+OBJECTS=$(BUILD_DIR)/loader.o $(BUILD_DIR)/kmain.o $(BUILD_DIR)/term.o
+OBJECTS+=$(BUILD_DIR)/vga.o $(BUILD_DIR)/string.o
+
 KERNEL=$(BUILD_DIR)/kernel.elf
 ISO_TARGET=$(DIST_DIR)/$(OS_NAME)_$(OS_VERSION).iso
 
@@ -49,12 +52,11 @@ $(ISO_TARGET): $(KERNEL) $(GRUB) $(MENU)
 	mkdir -p $(ISO_DIR)/boot/grub
 	cp $(KERNEL) $(ISO_DIR)/boot/kernel.elf
 	cp $(GRUB) $(ISO_DIR)/boot/grub/$(GRUB_BIN)
-	cp $(MENU) $(ISO_DIR)/boot/grub/menu.lst
-	$(GISO) -R -b boot/grub/$(GRUB_BIN) $(GFLAGS) -o $@ $(ISO_DIR)
+	cp $(GRUB_CFG) $(ISO_DIR)/boot/grub/grub.cfg
+	$(GISO) -o $@ $(ISO_DIR)
 
 run: $(ISO_TARGET)
-	sed s@OSISO@$(ISO_TARGET)@ $(BOCHS_TMP) > $(BOCHS_CFG)
-	$(BS) $(BFLAGS)
+	$(MV) $(MFLAGS) -cdrom $(ISO_TARGET)
 
 .PHONY: clean
 clean:

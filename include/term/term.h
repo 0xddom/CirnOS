@@ -1,4 +1,4 @@
-#include <vga.h>
+#include <vga/vga.h>
 
 typedef struct {
 	size_t row;

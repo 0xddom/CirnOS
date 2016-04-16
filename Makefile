@@ -30,17 +30,20 @@ GRUB=$(GRUB_DIR)/$(GRUB_BIN)
 GRUB_CFG=$(GRUB_DIR)/grub.cfg
 MV=qemu-system-i386
 MFLAGS=
+DN=dirname
 
-OBJECTS=$(BUILD_DIR)/loader.o $(BUILD_DIR)/kmain.o $(BUILD_DIR)/term.o
-OBJECTS+=$(BUILD_DIR)/vga.o $(BUILD_DIR)/string.o
+OBJECTS=$(BUILD_DIR)/loader.o $(BUILD_DIR)/kmain.o $(BUILD_DIR)/term/term.o
+OBJECTS+=$(BUILD_DIR)/vga/vga.o $(BUILD_DIR)/libc/string/string.o
 
 KERNEL=$(BUILD_DIR)/kernel.elf
 ISO_TARGET=$(DIST_DIR)/$(OS_NAME)_$(OS_VERSION).iso
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+	mkdir -p `$(DN) $@`
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.s
+	mkdir -p `$(DN) $@`
 	$(SS) $(SFLAGS) -o $@ $<
 
 $(KERNEL): $(OBJECTS)

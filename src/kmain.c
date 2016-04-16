@@ -1,4 +1,4 @@
-#include <term.h>
+#include <term/term.h>
 
 void kmain () {
 	term_init ();

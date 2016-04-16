@@ -1,6 +1,6 @@
 #include <stddef.h>
 //#include <stdint.h>
-#include <types.h>
+#include <libc/types.h>
 
 typedef char color_t;
 typedef short int vgaentry_t;

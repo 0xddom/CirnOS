@@ -1,5 +1,5 @@
-#include <term.h>
-#include <string.h>
+#include <term/term.h>
+#include <libc/string.h>
 
 #define xy2i(x,y) y * VGA_WIDTH + x
 

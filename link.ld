@@ -20,7 +20,7 @@ SECTIONS
 		*(.data)
 	}
 
-	.bssALIGN (0x1000) :
+	.bss BLOCK (4K) : ALIGN (4K)
 
 	{
 		*(COMMON)

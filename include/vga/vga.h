@@ -1,9 +1,12 @@
 #include <stddef.h>
-//#include <stdint.h>
 #include <libc/types.h>
 
 typedef char color_t;
-typedef short int vgaentry_t;
+struct _vgaentry_t {
+	char value;
+	color_t color;
+} __attribute__((packed));
+typedef struct _vgaentry_t vgaentry_t;
 
 enum vga_color {
 	COLOR_BLACK = 0,

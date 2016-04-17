@@ -5,7 +5,12 @@ color_t make_color (enum vga_color fg, enum vga_color bg) {
 }
 
 vgaentry_t make_vgaentry (char c, color_t color) {
-	short int c16 = c;
+	vgaentry_t entry;
+	entry.value = c;
+	entry.color = color;
+	return entry;
+	/*
+short int c16 = c;
 	short int col16 = color;
-	return c16 | col16 << 8;
+	return c16 | col16 << 8;*/
 }

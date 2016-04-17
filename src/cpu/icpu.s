@@ -6,11 +6,14 @@ global cpu_vendor_name
 
 ; [esp - 4] => addr of dest buffer
 cpu_vendor_name:
+	push ebp
+	mov ebp, esp
 	xor eax, eax
 	cpuid
-	mov eax, [esp - 4]
+	mov eax, [ebp + 8]
 	mov [eax], ebx
-	mov [eax + 4], ecx
-	mov [eax + 8], edx
+	mov [eax + 4], edx
+	mov [eax + 8], ecx
+	pop ebp
 	ret
 	

@@ -28,8 +28,10 @@ static void init () {
 
 static void banner () {
 	term_writestr (mascot);
+	term_writechar ('\n');
 	char cpu_name[13];
 	cpu_vendor_name (cpu_name);
+	term_writestr ("\tCPU: ");
 	term_writestr (cpu_name);
 	term_writechar ('\n');
 }

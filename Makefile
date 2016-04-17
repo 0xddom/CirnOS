@@ -32,9 +32,10 @@ MV=qemu-system-i386
 MFLAGS=
 DN=dirname
 
-OBJECTS=$(BUILD_DIR)/loader.o $(BUILD_DIR)/kmain.o $(BUILD_DIR)/term/term.o
+OBJECTS=$(BUILD_DIR)/loader.o $(BUILD_DIR)/kmain.o $(BUILD_DIR)/io/term.o
 OBJECTS+=$(BUILD_DIR)/vga/vga.o $(BUILD_DIR)/libc/string/string.o 
-OBJECTS+=$(BUILD_DIR)/io/io.o $(BUILD_DIR)/io/asm_io.o
+OBJECTS+=$(BUILD_DIR)/io/io.o $(BUILD_DIR)/io/outb.o $(BUILD_DIR)/io/inb.o 
+OBJECTS+=$(BUILD_DIR)/cpu/icpu.o
 
 KERNEL=$(BUILD_DIR)/kernel.elf
 ISO_TARGET=$(DIST_DIR)/$(OS_NAME)_$(OS_VERSION).iso
@@ -64,8 +65,7 @@ run: $(ISO_TARGET)
 
 .PHONY: clean
 clean:
-	$(RM) $(BUILD_DIR)/*.o
-	$(RM) $(KERNEL)
+	$(RM) -r $(BUILD_DIR)/*
 	$(RM) -r $(ISO_DIR)/*
 	$(RM) $(BOCHS_CFG)
 	$(RM) bochs.log

@@ -1,4 +1,4 @@
-#include <term/term.h>
+#include <io/term.h>
 #include <libc/string.h>
 #include <io/io.h>
 

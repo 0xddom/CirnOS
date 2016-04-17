@@ -13,5 +13,6 @@ typedef uint16_t io_port_t;
 
 void io_send_byte(io_port_t port, uint8_t data);
 void io_send_buffer(io_port_t port, uint8_t *buf, size_t len);
+uint8_t io_read_byte(io_port_t port);
 
 #endif

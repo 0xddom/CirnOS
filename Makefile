@@ -33,7 +33,8 @@ MFLAGS=
 DN=dirname
 
 OBJECTS=$(BUILD_DIR)/loader.o $(BUILD_DIR)/kmain.o $(BUILD_DIR)/term/term.o
-OBJECTS+=$(BUILD_DIR)/vga/vga.o $(BUILD_DIR)/libc/string/string.o
+OBJECTS+=$(BUILD_DIR)/vga/vga.o $(BUILD_DIR)/libc/string/string.o 
+OBJECTS+=$(BUILD_DIR)/io/io.o $(BUILD_DIR)/io/asm_io.o
 
 KERNEL=$(BUILD_DIR)/kernel.elf
 ISO_TARGET=$(DIST_DIR)/$(OS_NAME)_$(OS_VERSION).iso
